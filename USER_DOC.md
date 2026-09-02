@@ -1,69 +1,45 @@
 # User Documentation
 
-## What services does this stack provide?
+## What this provides
 
-- **A WordPress website**, reachable at `https://login.42.fr`, for
-  publishing and managing pages/posts.
-- **A WordPress administration panel**, reachable at
-  `https://login.42.fr/wp-admin`, for managing users, pages, and settings.
-- Behind the scenes, a **MariaDB database** stores all WordPress content,
-  and **NGINX** is the secure (HTTPS-only) front door to everything.
+- A WordPress site at `https://imirzaev.42.fr`
+- An admin panel at `https://imirzaev.42.fr/wp-admin`
+- MariaDB stores the content; NGINX is the HTTPS-only entry point
 
-## Starting and stopping the project
-
-From the root of the repository:
+## Starting and stopping
 
 ```bash
-make up      # build (if needed) and start everything in the background
-make stop    # stop the containers without removing them
-make start   # start previously-stopped containers again
-make down    # stop and remove the containers (data is kept, in the volumes)
-make re      # full reset: wipe everything, including host data, and rebuild
+make up      # start everything
+make stop    # stop containers without removing them
+make start   # start them again
+make down    # stop and remove containers (data kept)
+make re      # full reset and rebuild
 ```
 
-## Accessing the website and the administration panel
+## Accessing the site
 
-1. Make sure `login.42.fr` resolves to `127.0.0.1` (or your VM's IP) — this
-   is normally set up once in `/etc/hosts`.
-2. Open `https://login.42.fr` in your browser for the public site.
-3. Your browser will warn about the certificate — that's expected, it's
-   self-signed. Accept/continue past the warning.
-4. Open `https://login.42.fr/wp-admin` and log in with the administrator
-   account to reach the dashboard.
-5. Plain `http://login.42.fr` (port 80) is not served; only HTTPS on 443
-   works, by design.
+1. Make sure `imirzaev.42.fr` is in `/etc/hosts`.
+2. Open `https://imirzaev.42.fr` — accept the certificate warning, it's self-signed and expected.
+3. Log into `https://imirzaev.42.fr/wp-admin` with the admin account.
+4. Plain `http://imirzaev.42.fr` won't work — only HTTPS on 443 does.
 
-## Locating and managing credentials
+## Credentials
 
-All passwords live as plain text files in the `secrets/` folder at the root
-of the repository (never committed to git):
+All passwords are plain text files in `secrets/`, never committed to git:
 
-- `secrets/db_root_password.txt` — MariaDB root password
-- `secrets/db_password.txt` — WordPress database user password
-- `secrets/wp_admin_password.txt` — WordPress administrator password
-- `secrets/wp_user_password.txt` — WordPress second (editor) user password
+- `secrets/db_root_password.txt`
+- `secrets/db_password.txt`
+- `secrets/wp_admin_password.txt`
+- `secrets/wp_user_password.txt`
 
-Non-sensitive settings (domain name, database name, usernames, WordPress
-title) are in `srcs/.env`.
+To change a password, edit the file and run `make re`.
 
-To change a password: edit the relevant file in `secrets/`, then run
-`make re` so the containers pick it up (WordPress/MariaDB only apply these
-values on first initialization of their volumes).
-
-## Checking that services are running correctly
+## Checking it's working
 
 ```bash
-make ps       # shows each container's status (should say "running"/"Up")
-make logs     # tails logs from all three containers, Ctrl+C to stop
+make ps       # container status
+make logs     # live logs from all three containers
 ```
 
-You can also check a specific container directly, e.g.:
-
-```bash
-docker compose -f srcs/docker-compose.yml logs nginx
-docker compose -f srcs/docker-compose.yml logs wordpress
-docker compose -f srcs/docker-compose.yml logs mariadb
-```
-
-If `https://login.42.fr` loads and shows the WordPress site (not the
-WordPress installation wizard), the stack is healthy.
+If `https://imirzaev.42.fr` shows the WordPress site (not the install
+wizard), everything's healthy.

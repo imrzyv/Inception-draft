@@ -12,5 +12,4 @@ if [ ! -f /etc/nginx/ssl/inception.key ]; then
 		-subj "/C=FR/ST=IDF/L=Paris/O=42/OU=inception/CN=${DOMAIN_NAME}"
 fi
 
-# Hand off PID 1 to nginx, running in the foreground.
 exec nginx -g "daemon off;"

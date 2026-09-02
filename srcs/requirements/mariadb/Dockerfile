@@ -1,4 +1,3 @@
-# Debian 12 "bookworm" = penultimate stable Debian release (13 "trixie" is current stable)
 FROM debian:bookworm
 
 RUN apt-get update && apt-get install -y --no-install-recommends \

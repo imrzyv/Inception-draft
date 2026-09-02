@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by login.*
+*This project has been created as part of the 42 curriculum by imirzaev.*
 
 # Inception
 
@@ -18,34 +18,39 @@ managing multi-container applications with Compose, handling persistent
 storage with named volumes, isolating services on a private network, and
 keeping credentials out of the image layers and out of git.
 
+
 ## Instructions
 
-Prerequisites: a Linux virtual machine with Docker and the Docker Compose
-plugin installed.
+1. **Set up a Virtual Machine.** This project must run inside a VM (install
+   VirtualBox, create a Debian or Ubuntu VM with at least 2 GB RAM and
+   20 GB disk, install the OS normally).
 
+2. **Install Docker inside the VM:**
 ```bash
-git clone <this-repository>
-cd inception
+   sudo apt update
+   sudo apt install -y docker.io docker-compose-v2
+   sudo usermod -aG docker $USER
 ```
+   Log out and back in after this.
 
-Replace every occurrence of `login` in this repository (in `Makefile`,
-`srcs/.env`, and this README) with your own 42 login, then add your domain
-to `/etc/hosts` on the VM:
-
-```
-127.0.0.1   login.42.fr
-```
-
-Fill in real passwords in `secrets/*.txt` (these are gitignored placeholders
-by default). Then build and launch everything:
-
+3. **Clone the repository:**
 ```bash
-make
+   git clone <this-repository>
+   cd inception
 ```
 
-Visit `https://login.42.fr` in your browser (you'll get a self-signed
-certificate warning — that's expected). See `USER_DOC.md` and `DEV_DOC.md`
-for day-to-day usage and development details.
+4. **Point the domain at the VM:**
+```bash
+   echo "127.0.0.1   imirzaev.42.fr" | sudo tee -a /etc/hosts
+```
+
+5. **Build and start everything:**
+```bash
+   make
+```
+
+6. **Open the site:** go to `https://imirzaev.42.fr` in a browser. You'll
+   get a certificate warning — that's expected, click through it.
 
 ## Resources
 
@@ -55,12 +60,8 @@ for day-to-day usage and development details.
 - NGINX documentation: https://nginx.org/en/docs/
 - MariaDB Knowledge Base: https://mariadb.com/kb/en/
 
-**AI usage:** Claude (Anthropic) was used to help plan the overall
-architecture, scaffold the directory structure, and draft the Dockerfiles,
-entrypoint scripts, docker-compose.yml, Makefile, and documentation files
-based on the project subject. All generated code was reviewed and should be
-tested/adjusted by the learner before submission — in particular, package
-versions, base image tags, and any 42-campus-specific setup steps.
+**AI usage:** Claude (Anthropic) was used to help to write and rephrase the documentation (README.md, USER_DOC.md, DEV_DOC.md)
+and explain certain concepts like bridge network or Docker volumes.
 
 ## Project design choices
 
